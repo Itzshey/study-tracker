@@ -6,7 +6,11 @@ O objetivo é dar a possibilidade de registrar e monitorar localmente a produtiv
 
 ## Requisitos:
 1 - Linguagem C++
+
 2 - Deve ser um executável
+
 3 - Permitir escolher onde será criado o arquivo
+
 4 - O arquivo será um txt no inicio
+
 5 - Bloquear outros formatos de arquivo
