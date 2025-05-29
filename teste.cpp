@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <ctime>
+#include <limits>
 
 using namespace std;
 
@@ -24,27 +25,42 @@ int main()
 {
    menu();
    cout << "Insira sua opção: ";
-   string x;
+   int x;
    cin >> x;
 
-   while (x != "3")
+   if(cin.fail())
    {
-        if(x == "1")
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+   }
+    
+   while (x != 3)
+   {
+        switch (x)
         {
+        case 1:
             cout << "Teste opção 1 \n";
+            break;
 
-        } else if (x == "2")
-        {
+        case 2:
              cout << "Teste opção 2 \n";
-
-        } else
-        {
+            break;
+        
+        default:
              cout << "Teste input inválido \n";
+            break;
         }
 
         menu();
         cout << "Insira sua opção: ";
         cin >> x;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        
    }
    
 
