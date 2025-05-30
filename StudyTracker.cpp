@@ -6,13 +6,6 @@
 
 using namespace std;
 
-class Estudos 
-{
-    public:
-    string nomeDoAssunto;
-    string tempoInicio;
-    string tempoFim;
-};
 
 void menu() 
 {
@@ -21,25 +14,33 @@ void menu()
     cout << "[3] Sair do programa \n";
 }
 
-int main()
+int obterOpcao()
 {
-   menu();
-   cout << "Insira sua opção: ";
-   int x;
-   cin >> x;
+    int x;
+    cout << "Insira sua opção: ";
+    cin >> x;
 
-   if(cin.fail())
-   {
+    if (cin.fail())
+    {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-   }
-    
+        
+    }
+
+    return x;
+}
+
+int main()
+{
+   menu ();
+   int x = obterOpcao();
+
    while (x != 3)
    {
         switch (x)
         {
         case 1:
-            cout << "Teste opção 1 \n";
+             cout << "Teste opção 2 \n";
             break;
 
         case 2:
@@ -51,17 +52,9 @@ int main()
             break;
         }
 
-        menu();
-        cout << "Insira sua opção: ";
-        cin >> x;
+    menu ();
+    x = obterOpcao();
 
-        if (cin.fail())
-        {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-        
    }
-   
 
 }
