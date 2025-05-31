@@ -35,15 +35,17 @@ void novoEstudo()
         Estudos nvEstudo;
         cout << "Insira o nome do seu novo estudo: \n";
         string nome;
-        cin >> nome;
+        cin.ignore();
+        getline(cin, nome);
+        
         nvEstudo.nomeEstudo = nome;
 
         time_t timestamp = time(nullptr);
         nvEstudo.inicioEstudo = ctime(&timestamp);
 
         cout << "Para encerrar sua sessão de estudos aperte qualquer tecla e depois aperte enter. \n" ;
-        string n;
-        cin >> n;
+        string fim;
+        cin >> fim;
 
         time_t timestamp2 = time(nullptr);
         nvEstudo.fimEstudo = ctime(&timestamp2);
@@ -51,15 +53,15 @@ void novoEstudo()
        cout << "Salvando estudo... \n";
 
        fstream myFile;
-       myFile.open("study-tracker.txt", ios::app); // PARA ESCREVER!!
+       myFile.open("study-tracker.txt", ios::app); 
 
        if (myFile.is_open())
        {
             myFile << "\n Assunto: ";
             myFile << nvEstudo.nomeEstudo;
-            myFile << "Início: ";
+            myFile << "\n Início: ";
             myFile << nvEstudo.inicioEstudo;
-            myFile << "Fim: \n";
+            myFile << "\n Fim: \n";
             myFile << nvEstudo.fimEstudo;
             myFile.close();
        }
@@ -117,5 +119,6 @@ int main()
 
    cout << "Salvando informações... \n";
    cout << "Até a próxima sessão de estudos!\n";
+   return 0;
    
 }
