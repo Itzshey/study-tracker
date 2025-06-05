@@ -5,6 +5,7 @@
 #include <limits>
 #include "Estudos.hpp"
 #include <fstream>
+#include <filesystem>
 
 using namespace std;
 
@@ -30,51 +31,74 @@ int obterOpcao()
     return x;
 }
 
+
 void novoEstudo()
 {
-        Estudos nvEstudo;
-        cout << "Insira o nome do seu novo estudo: \n";
-        string nome;
-        cin.ignore();
-        getline(cin, nome);
-        
-        nvEstudo.nomeEstudo = nome;
+    string caminhoArquivo;
 
-        time_t timestamp = time(nullptr);
-        nvEstudo.inicioEstudo = ctime(&timestamp);
+    cout << "Digite o caminho completo do arquivo (ex: C:\\meus_estudos\\registro.txt):\n";
+    cin.ignore();
+    getline(cin, caminhoArquivo);
 
-        cout << "Para encerrar sua sessão de estudos aperte qualquer tecla e depois aperte enter. \n" ;
-        string fim;
-        cin >> fim;
+    filesystem::path caminhoPath(caminhoArquivo);
+    filesystem::path diretorio = caminhoPath.parent_path();
 
-        time_t timestamp2 = time(nullptr);
-        nvEstudo.fimEstudo = ctime(&timestamp2);
-       
-       cout << "Salvando estudo... \n";
+    if (!filesystem::exists(diretorio)) {
+        cout << "Erro: o diretório especificado não existe. Verifique o caminho.\n";
+        return;
+    }
 
-       fstream myFile;
-       myFile.open("study-tracker.txt", ios::app); 
+    Estudos nvEstudo;
+    cout << "Insira o nome do seu novo estudo: \n";
+    string nome;
+    cin.ignore();
+    getline(cin, nome);
+    nvEstudo.nomeEstudo = nome;
 
-       if (myFile.is_open())
-       {
-            myFile << "\n Assunto: ";
-            myFile << nvEstudo.nomeEstudo;
-            myFile << "\n Início: ";
-            myFile << nvEstudo.inicioEstudo;
-            myFile << "\n Fim: \n";
-            myFile << nvEstudo.fimEstudo;
-            myFile.close();
-       }
-     
-       cout << "Sessão de estudos finalizada! \n";
+    time_t timestamp = time(nullptr);
+    nvEstudo.inicioEstudo = ctime(&timestamp);
 
-       
+    cout << "Para encerrar sua sessão de estudos aperte qualquer tecla e depois aperte enter. \n";
+    string fim;
+    cin >> fim;
+
+    time_t timestamp2 = time(nullptr);
+    nvEstudo.fimEstudo = ctime(&timestamp2);
+ 
+    fstream myFile;
+    cout << "Salvando estudo... \n";
+
+    myFile.open(caminhoArquivo, ios::app);
+
+    if (myFile.is_open())
+    {
+        myFile << "\n Assunto: ";
+        myFile << nvEstudo.nomeEstudo;
+        myFile << "\n Início: ";
+        myFile << nvEstudo.inicioEstudo;
+        myFile << "Fim: ";
+        myFile << nvEstudo.fimEstudo;
+        myFile.close();
+        cout << "Sessão de estudos salva em: " << caminhoArquivo << endl;
+    }
+    else
+    {
+        cout << "Erro ao abrir o arquivo. Verifique o caminho fornecido.\n";
+    }
+
+    cout << "Sessão de estudos finalizada! \n";
 }
+     
 
 void estudosAnteriores()
 {
+    cout << "Digite o caminho completo do arquivo que deseja visualizar (ex: C:\\meus_estudos\\registro.txt):\n";
+    cin.ignore();
+    string caminhoArquivo;
+    getline(cin, caminhoArquivo);
     fstream myFile;
-    myFile.open("study-tracker.txt", ios::in);
+
+    myFile.open(caminhoArquivo, ios::in);
 
     if (myFile.is_open())
     {
@@ -86,7 +110,10 @@ void estudosAnteriores()
         
         myFile.close();
     }
-    
+    else
+    {
+         cout << "Não foi possível abrir o arquivo. Verifique se o caminho está correto.\n";
+    }
 }
 
 
